@@ -1,24 +1,41 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Check, Play } from "lucide-react";
+import hero from "@/assets/home-cinema-hero.jpg";
+import heroVideo from "@/assets/home-cinema-hero.mp4.asset.json.asset.json";
+import livingRoom from "@/assets/smart-living-room.jpg";
+import cinema from "@/assets/private-cinema.jpg";
+import outdoor from "@/assets/outdoor-av.jpg";
+import { Button } from "@/components/ui/button";
+import { FinalCta } from "@/components/site-shell";
+import { areas, services } from "@/lib/site-data";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ meta: [
+    { title: "Home Theater & Smart Home Novato | Home Cinema Center" },
+    { name: "description", content: "Custom home theater, audio, lighting and smart home installation in Novato and Marin County. Request a complimentary consultation." },
+    { property: "og:title", content: "Home Cinema Center | Novato, Marin County" },
+    { property: "og:description", content: "Theater. Audio. Light. Control. Custom-designed technology for Marin County homes and businesses." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  ]}), component: HomePage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+function HomePage() {
+  return <>
+    <section className="relative flex min-h-[calc(100svh-5rem)] items-end overflow-hidden pb-16 pt-28 md:items-center md:pb-0">
+      <video className="absolute inset-0 h-full w-full object-cover" autoPlay muted loop playsInline poster={hero}><source src={heroVideo.url} /></video><div className="hero-overlay absolute inset-0" />
+      <div className="relative mx-auto w-full max-w-7xl px-5 lg:px-8"><div className="max-w-2xl"><div className="mb-7 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary"><span className="h-px w-10 bg-primary" />Novato · Marin County</div><h1 className="text-5xl font-medium leading-[0.9] md:text-8xl">Theater. Audio.<br />Light. Control.</h1><p className="mt-7 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl">Custom-designed technology that respects your architecture, responds to your lifestyle and simply works.</p><div className="mt-9 flex flex-wrap gap-3"><Button asChild variant="premium" size="xl"><Link to="/contact">Get a Free Quote <ArrowRight /></Link></Button><Button asChild variant="premiumOutline" size="xl"><Link to="/portfolio"><Play /> View Our Work</Link></Button></div></div></div>
+      <div className="absolute bottom-7 right-8 hidden text-right text-xs text-muted-foreground lg:block"><span className="block text-foreground">Architectural technology, thoughtfully integrated</span>Residential & commercial</div>
+    </section>
+
+    <section className="py-24"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="section-rule mb-14 pl-6"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Our expertise</p><h2 className="mt-3 text-3xl font-medium md:text-5xl">Systems designed for your lifestyle.</h2><p className="mt-4 max-w-2xl text-muted-foreground">Every room, routine and client is different. We design the complete experience around how you live, then make the technology fade into the background.</p></div><div className="grid border border-border sm:grid-cols-2 lg:grid-cols-4">{services.map((service) => { const Icon = service.icon; return <article key={service.title} className="group border-b border-r border-border p-7 transition-colors hover:bg-card"><Icon className="mb-8 text-primary" /><h3 className="text-lg font-medium">{service.title}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p></article>; })}</div><div className="mt-8 text-right"><Link to="/services" className="text-sm font-semibold text-primary">Explore every service →</Link></div></div></section>
+
+    <section className="bg-card py-24"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Selected work</p><h2 className="mt-3 text-4xl font-medium">Marin portfolio</h2></div><Link to="/portfolio" className="hidden border-b border-primary pb-1 text-sm sm:block">View all projects</Link></div><div className="grid gap-5 md:grid-cols-12"><Link to="/portfolio" className="group relative overflow-hidden md:col-span-8"><img src={livingRoom} alt="Integrated smart home living room in Marin County" width="1200" height="800" loading="lazy" className="aspect-[16/10] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" /><span className="absolute bottom-0 left-0 bg-background/90 px-5 py-4 text-sm">West Marin smart residence</span></Link><div className="grid gap-5 md:col-span-4"><Link to="/portfolio" className="group relative overflow-hidden"><img src={cinema} alt="Private home cinema with violet lighting" width="816" height="816" loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" /><span className="absolute bottom-0 left-0 bg-background/90 px-5 py-4 text-sm">Novato private cinema</span></Link><blockquote className="border border-primary/30 bg-primary/5 p-7 text-display text-xl italic">“Every wire is hidden, every interface is intuitive. It changed how we live in our home.”<cite className="mt-5 block font-sans text-xs not-italic uppercase tracking-widest text-muted-foreground">Marin County homeowner</cite></blockquote></div></div></div></section>
+
+    <section className="py-24"><div className="mx-auto grid max-w-7xl gap-16 px-5 lg:grid-cols-2 lg:px-8"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why Home Cinema Center</p><h2 className="mt-3 text-4xl font-medium">Local expertise. Exacting execution.</h2><div className="mt-10 space-y-8">{[["01","Designed, never bundled","Your system starts with your room, your routines and your priorities—not an equipment package."],["02","One accountable partner","Design, wiring, programming, calibration and support are coordinated by one local team."],["03","Easy to live with","Powerful technology becomes a clear, intuitive experience for everyone in the household."]].map(([n,t,d]) => <div key={n} className="flex gap-5"><span className="font-semibold text-primary">{n}</span><div><h3 className="font-medium">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{d}</p></div></div>)}</div></div><div><img src={outdoor} alt="Marin County outdoor entertainment and lighting installation" width="1200" height="800" loading="lazy" className="aspect-[4/3] w-full object-cover" /></div></div></section>
+
+    <section className="border-y border-border bg-card py-20"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="grid gap-12 lg:grid-cols-2"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Close to home</p><h2 className="mt-3 text-4xl font-medium">Serving Marin County and nearby communities.</h2><p className="mt-5 max-w-lg text-muted-foreground">Based in Novato, we provide thoughtful design, professional installation and responsive support throughout Marin.</p><Link to="/service-areas" className="mt-7 inline-block text-sm font-semibold text-primary">Explore service areas →</Link></div><div className="grid grid-cols-2 gap-px border border-border bg-border">{areas.slice(0,8).map((area) => <div key={area} className="bg-card p-4 text-sm">{area}</div>)}</div></div></div></section>
+
+    <section className="py-24"><div className="mx-auto max-w-4xl px-5"><p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-primary">Frequently asked</p><h2 className="mt-3 text-center text-4xl font-medium">Good planning starts with good questions.</h2><div className="mt-10 divide-y divide-border border-y border-border">{[["Can you upgrade an existing home theater?","Yes. We assess your room, wiring and current equipment, then recommend focused upgrades that deliver meaningful performance and usability improvements."],["Do you work with architects and interior designers?","Absolutely. Early collaboration helps us conceal technology, coordinate lighting and shades, and protect the design intent."],["Do you handle commercial installations?","Yes. We design reliable AV, networking, surveillance, lighting and control systems for offices, hospitality and other commercial spaces."],["What happens after installation?","We calibrate, document and walk you through the system, then remain available for service, updates and expert help."]].map(([q,a]) => <details key={q} className="group py-6"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">{q}<span className="text-xl text-primary group-open:rotate-45">+</span></summary><p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">{a}</p></details>)}</div></div></section>
+    <FinalCta title="Your home should feel smarter—not more complicated." />
+  </>;
 }
